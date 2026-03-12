@@ -53,9 +53,9 @@ public class APIClient {
     public Response ping(){
         return getRequestSpec()
                 .when()
-                .get(ApiEndpoints.PING.getPath()) // Enum для едпоинта /ping
+                .get(ApiEndpoints.PING.getPath())
                 .then()
-                .statusCode(201) // Ожидаемый статус-код 201
+                .statusCode(201)
                 .extract().response();
     }
 
