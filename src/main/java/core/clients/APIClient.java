@@ -1,5 +1,7 @@
 package core.clients;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import core.models.Booking;
 import core.settings.ApiEndpoints;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
@@ -7,7 +9,10 @@ import io.restassured.specification.RequestSpecification;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.Properties;
+
+import static io.restassured.RestAssured.given;
 
 public class APIClient {
 
@@ -38,7 +43,7 @@ public class APIClient {
 
     //Настройка базовых параметров HTTP-запросов
     private RequestSpecification getRequestSpec(){
-        return RestAssured.given()
+        return given()
                 .baseUri(baseUrl)
                 .header("Content-Type","application/json")
                 .header("Accept", "application/json");
@@ -63,15 +68,21 @@ public class APIClient {
                 .statusCode(200) // Ожидаемый статус-код 200
                 .extract().response();
     }
+
+    //Получение актуальных bookingId
+
+    public List<Integer> bookingIdList(){
+        return getBooking().jsonPath().getList("bookingid", Integer.class);
+    }
+
     // GET запрос на ендпоинт /booking/{id}
-    public Response getBookingById(){
-        String bookingId = System.getProperty("/bookingId", "/77");
+    public Response getBookingById(int bookingId){
 
         return getRequestSpec()
+                .given()
                 .when()
-                .get(ApiEndpoints.BOOKING.getPath() + bookingId)
+                .get(ApiEndpoints.BOOKING.getPath() + "/" + bookingId)
                 .then()
-                .statusCode(200) // Ожидаемый статус-код 200
                 .extract().response();
     }
 

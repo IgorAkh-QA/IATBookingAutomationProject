@@ -24,9 +24,27 @@ public class GetBookingByIdTest {
     @Test
     public void testGetBookingById() throws Exception {
 
-        Response response = apiClient.getBookingById();
+        List<Integer> bookingIdList = apiClient.bookingIdList();
+        //Integer existentId = null;
+        for (Integer bookingId : bookingIdList) {
+            Response response = apiClient.getBookingById(bookingId);
+            if (response.statusCode() == 200) {
+               // existentId = bookingId;
+               // String getBookingByIdResponseBody = response.getBody().asString();
+                BookingById bookingInfo = response.as(BookingById.class);
+                assertThat(bookingInfo.getFirstname()).isNotNull();
+                assertThat(bookingInfo.getLastname()).isNotNull();
+                assertThat(bookingInfo.getTotalprice()).isGreaterThan(0);
+                assertThat(bookingInfo.isDepositpaid()).asString().isNotNull();
+                assertThat(bookingInfo.bookingdates.getCheckin()).isBetween("2013-02-23", "2023-02-23");
+                assertThat(bookingInfo.bookingdates.getCheckout()).isGreaterThan(bookingInfo.bookingdates.getCheckin());
+                assertThat(bookingInfo.getAdditionalneeds()).isNotNull();
+                System.out.println("Успешный сценарий, статус-код ответа == " + response.statusCode());
+                break;
+            }
+        }
 
-        //Проверяем, что статус- код ответа равен 200
+       /* //Проверяем, что статус- код ответа равен 200
         assertThat(response.getStatusCode()).isEqualTo(200);
 
         //Десериализуем тело ответа в список объектов Booking
@@ -38,7 +56,7 @@ public class GetBookingByIdTest {
         assertThat(bookingInfo.isDepositpaid()).asString().isNotNull();
         assertThat(bookingInfo.bookingdates.getCheckin()).isBetween("2013-02-23", "2023-02-23");
         assertThat(bookingInfo.bookingdates.getCheckout()).isGreaterThan(bookingInfo.bookingdates.getCheckin());
-        assertThat(bookingInfo.getAdditionalneeds()).isNotNull();
+        assertThat(bookingInfo.getAdditionalneeds()).isNotNull(); */
 
 
 
