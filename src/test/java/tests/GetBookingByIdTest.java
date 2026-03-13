@@ -13,16 +13,10 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class GetBookingByIdTest {
-    private APIClient apiClient;
-
-    @BeforeEach
-    public void setup() {
-        apiClient = new APIClient();
-    }
+public class GetBookingByIdTest extends BaseBookingTest {
 
     @Test
-    public void testGetBookingById() throws Exception {
+    public void testGetBookingById() throws Exception{
 
         List<Integer> bookingIdList = apiClient.bookingIdList();
 
