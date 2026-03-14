@@ -9,6 +9,7 @@ import io.restassured.specification.RequestSpecification;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 
@@ -72,7 +73,8 @@ public class APIClient {
     //Получение актуальных bookingId
 
     public List<Integer> bookingIdList(){
-        return getBooking().jsonPath().getList("bookingid", Integer.class);
+        List bookingIds = getBooking().jsonPath().getList("bookingid", Integer.class);
+        return bookingIds != null ? bookingIds : Collections.emptyList();
     }
 
     // GET запрос на ендпоинт /booking/{id}

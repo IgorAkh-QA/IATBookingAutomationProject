@@ -23,13 +23,15 @@ public class GetBookingByIdTest {
 
     @Test
     public void testGetBookingById() throws Exception {
-
+        boolean successfulResponseFound = false;
         List<Integer> bookingIdList = apiClient.bookingIdList();
 
         for (Integer bookingId : bookingIdList) {
             Response response = apiClient.getBookingById(bookingId);
 
             if (response.statusCode() == 200) {
+                successfulResponseFound = true;
+
                 BookingById bookingInfo = response.as(BookingById.class);
                 assertThat(bookingInfo.getFirstname()).isNotNull();
                 assertThat(bookingInfo.getLastname()).isNotNull();
@@ -42,6 +44,9 @@ public class GetBookingByIdTest {
                 break;
             }
         }
+        assertThat(successfulResponseFound).as("Ни один bookingId не вернул статус-код 200").isTrue();
     }
+
+
 }
 
