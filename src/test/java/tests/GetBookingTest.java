@@ -12,19 +12,11 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class GetBookingTest {
-
-    private APIClient apiClient;
-    private ObjectMapper objectMapper;
-
-    @BeforeEach
-    public void setup() {
-        apiClient = new APIClient();
-        objectMapper = new ObjectMapper();
-    }
+public class GetBookingTest extends BaseBookingTest{
 
     @Test
     public void testGetAllBookings() throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
         // Выполняем GET запрос на /ping через APIClient
         Response response = apiClient.getBooking();
 
