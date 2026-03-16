@@ -1,9 +1,6 @@
 package core.clients;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import core.models.Booking;
 import core.settings.ApiEndpoints;
-import io.restassured.RestAssured;
 import io.restassured.filter.Filter;
 import io.restassured.filter.FilterContext;
 import io.restassured.response.Response;
@@ -123,11 +120,11 @@ public class APIClient {
     }
 
     // DELETE запрос на эндпоинт /booking
-    public Response deleteBooking(int bookingId) {
+    public Response deleteBookingById(int bookingId) {
         return getRequestSpec()
                 .pathParam("id", bookingId)
                 .when()
-                .delete(ApiEndpoints.BOOKING.getPath() + "/{id}")
+                .delete(ApiEndpoints.BOOKING.getPath()+ "/{id}")
                 .then()
                 .log().all()
                 .statusCode(201)
