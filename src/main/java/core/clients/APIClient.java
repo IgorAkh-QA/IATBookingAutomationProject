@@ -1,6 +1,19 @@
+package core.clients;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import core.models.Booking;
+import core.settings.ApiEndpoints;
+import io.restassured.RestAssured;
+import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
+
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collections;
+import java.util.List;
 import java.util.Properties;
+
+import static io.restassured.RestAssured.given;
 
 public class APIClient {
 
@@ -25,8 +38,54 @@ public class APIClient {
         } catch (IOException e) {
             throw new IllegalStateException("Unable to load configuration file: " + configFileName, e);
         }
+
         return properties.getProperty("baseUrl");
     }
 
+    //Настройка базовых параметров HTTP-запросов
+    private RequestSpecification getRequestSpec(){
+        return given()
+                .baseUri(baseUrl)
+                .header("Content-Type","application/json")
+                .header("Accept", "application/json");
+    }
+
+    // GET запрос на ендпоинт /ping
+    public Response ping(){
+        return getRequestSpec()
+                .when()
+                .get(ApiEndpoints.PING.getPath())
+                .then()
+                .statusCode(201)
+                .extract().response();
+    }
+
+    // GET запрос на ендпоинт /booking
+    public Response getBooking(){
+        return getRequestSpec()
+                .when()
+                .get(ApiEndpoints.BOOKING.getPath()) // Enum для едпоинта /ping
+                .then()
+                .statusCode(200) // Ожидаемый статус-код 200
+                .extract().response();
+    }
+
+    //Получение актуальных bookingId
+
+    public List<Integer> bookingIdList(){
+        List bookingIds = getBooking().jsonPath().getList("bookingid", Integer.class);
+        return bookingIds != null ? bookingIds : Collections.emptyList();
+    }
+
+    // GET запрос на ендпоинт /booking/{id}
+    public Response getBookingById(int bookingId){
+
+        return getRequestSpec()
+                .given()
+                .when()
+                .get(ApiEndpoints.BOOKING.getPath() + "/" + bookingId)
+                .then()
+                .extract().response();
+    }
 
 }
