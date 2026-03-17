@@ -130,5 +130,15 @@ public class APIClient {
                 .statusCode(201)
                 .extract().response();
     }
+    public Response createBooking (String newBooking){
+        return getRequestSpec()
+                .body(newBooking)
+                .log().all()
+                .when()
+                .post(ApiEndpoints.BOOKING.getPath())
+                .then()
+                .log().all()
+                .extract().response();
+    }
 
 }
