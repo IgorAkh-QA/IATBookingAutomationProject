@@ -1,10 +1,11 @@
 package core.clients;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import core.models.Booking;
 import core.settings.ApiEndpoints;
-import io.restassured.RestAssured;
+import io.restassured.filter.Filter;
+import io.restassured.filter.FilterContext;
 import io.restassured.response.Response;
+import io.restassured.specification.FilterableRequestSpecification;
+import io.restassured.specification.FilterableResponseSpecification;
 import io.restassured.specification.RequestSpecification;
 
 import java.io.IOException;
@@ -18,6 +19,7 @@ import static io.restassured.RestAssured.given;
 public class APIClient {
 
     private final String baseUrl;
+    private String token;
 
     public APIClient() {
         this.baseUrl = determineBaseUrl();
@@ -47,7 +49,36 @@ public class APIClient {
         return given()
                 .baseUri(baseUrl)
                 .header("Content-Type","application/json")
-                .header("Accept", "application/json");
+                .header("Accept", "application/json")
+                .filter(addAuthTokenFilter());
+    }
+
+    //Метод получения токена
+
+    public void createToken (String username, String password){
+        // Тело запроса для получения токена
+        String requestBody = String.format("{\"username\": \"%s\", \"password\": \"%s\"}", username, password);
+
+        Response response = getRequestSpec()
+                .body(requestBody)
+                .when()
+                .post(ApiEndpoints.AUTH.getPath())
+                .then()
+                .statusCode(200)
+                .extract().response();
+
+        // Извлекаем токен из ответа и кладем в переменную token
+        token = response.jsonPath().getString("token");
+    }
+
+    // Фильтр для добавления токена в заголовок Authorization
+    private Filter addAuthTokenFilter(){
+        return (FilterableRequestSpecification requestSpec, FilterableResponseSpecification responseSpec, FilterContext ctx) -> {
+            if (token != null) {
+                requestSpec.header("Cookie", "token=" + token);
+            }
+            return ctx.next(requestSpec, responseSpec);
+        };
     }
 
     // GET запрос на ендпоинт /ping
@@ -85,6 +116,18 @@ public class APIClient {
                 .when()
                 .get(ApiEndpoints.BOOKING.getPath() + "/" + bookingId)
                 .then()
+                .extract().response();
+    }
+
+    // DELETE запрос на эндпоинт /booking
+    public Response deleteBookingById(int bookingId) {
+        return getRequestSpec()
+                .pathParam("id", bookingId)
+                .when()
+                .delete(ApiEndpoints.BOOKING.getPath()+ "/{id}")
+                .then()
+                .log().all()
+                .statusCode(201)
                 .extract().response();
     }
 

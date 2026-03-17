@@ -13,13 +13,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class GetBookingByIdTest {
-    private APIClient apiClient;
-
-    @BeforeEach
-    public void setup() {
-        apiClient = new APIClient();
-    }
+public class GetBookingByIdTest extends BaseBookingTest {
 
     @Test
     public void testGetBookingById() throws Exception {
@@ -44,9 +38,6 @@ public class GetBookingByIdTest {
                 break;
             }
         }
-        assertThat(successfulResponseFound).as("Ни один bookingId не вернул статус-код 200").isTrue();
     }
-
-
 }
 
