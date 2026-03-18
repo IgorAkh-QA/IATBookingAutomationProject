@@ -97,6 +97,7 @@ public class APIClient {
                 .when()
                 .get(ApiEndpoints.BOOKING.getPath()) // Enum для едпоинта /ping
                 .then()
+                .log().all()
                 .statusCode(200) // Ожидаемый статус-код 200
                 .extract().response();
     }
