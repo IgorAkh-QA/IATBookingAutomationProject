@@ -102,7 +102,7 @@ public class APIClient {
                 .extract().response();
     }
 
-    //Получение актуальных bookingId
+    //Обработка ответа от GET /booking, создание списка bookingid
 
     public List<Integer> bookingIdList(){
         List bookingIds = getBooking().jsonPath().getList("bookingid", Integer.class);
