@@ -27,6 +27,7 @@ public class BaseBookingTest extends BaseTest{
         String responseBody = createdBookingResponse.asString(); //Приводим объект response к строке, для последующей десериализации
         CreatedBooking createdBooking = objectMapper.readValue(responseBody, CreatedBooking.class); //Десериализуем респонс
         createdBookingId = createdBooking.getBookingid();
+        System.out.println("Предусловие выполнено успешно, бронирование: " + createdBookingId + " создано");
 
     }
 
@@ -35,7 +36,8 @@ public class BaseBookingTest extends BaseTest{
         apiClient.createToken("admin", "password123");
         apiClient.deleteBookingById(createdBookingId); //Вызываем метод delete для созданного в рамках теста bookingId
 
-        AssertionsForClassTypes.assertThat(apiClient.getBookingById(createdBookingId).getStatusCode()).isEqualTo(404); //Проверяем, что bookingId действительно удален
+        AssertionsForClassTypes.assertThat(apiClient.getBookingById(createdBookingId).getStatusCode()).isEqualTo(404);
+        System.out.println("Постусловие выполнено успешно, бронирование: " + createdBookingId + " удалено");//Проверяем, что bookingId действительно удален
     }
 
 
