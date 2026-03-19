@@ -97,11 +97,12 @@ public class APIClient {
                 .when()
                 .get(ApiEndpoints.BOOKING.getPath()) // Enum для едпоинта /ping
                 .then()
+                .log().all()
                 .statusCode(200) // Ожидаемый статус-код 200
                 .extract().response();
     }
 
-    //Получение актуальных bookingId
+    //Обработка ответа от GET /booking, создание списка bookingid
 
     public List<Integer> bookingIdList(){
         List bookingIds = getBooking().jsonPath().getList("bookingid", Integer.class);
@@ -128,6 +129,16 @@ public class APIClient {
                 .then()
                 .log().all()
                 .statusCode(201)
+                .extract().response();
+    }
+    public Response createBooking (String newBooking){
+        return getRequestSpec()
+                .body(newBooking)
+                .log().all()
+                .when()
+                .post(ApiEndpoints.BOOKING.getPath())
+                .then()
+                .log().all()
                 .extract().response();
     }
 
