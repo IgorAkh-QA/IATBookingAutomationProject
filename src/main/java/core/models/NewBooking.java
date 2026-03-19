@@ -5,7 +5,7 @@ public class NewBooking {
     public String lastname;
     public int totalprice;
     public boolean depositpaid;
-    private BookingDates bookingdates;
+    public BookingDates bookingdates;
     public String additionalneeds;
 
     public String getLastname() {
