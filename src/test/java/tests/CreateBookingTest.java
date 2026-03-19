@@ -2,10 +2,8 @@ package tests;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import core.models.BookingDates;
 import core.models.CreatedBooking;
 import core.models.NewBooking;
-import core.utils.SetupNewBookingFields;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -14,7 +12,7 @@ import static core.utils.SetupNewBookingFields.setupNewBookingFields;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class CreateBookingTest extends BaseBookingTest{
+public class CreateBookingTest extends BaseTest {
 
     private ObjectMapper objectMapper = new ObjectMapper();
     private CreatedBooking createdBooking;
