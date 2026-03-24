@@ -8,7 +8,7 @@ import io.restassured.response.Response;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
-import static core.utils.SetupNewBookingFields.setupNewBookingFields;
+import static core.utils.TestData.setupNewBookingFields;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -29,14 +29,16 @@ public class CreateBookingTest extends BaseTest {
         createdBooking = objectMapper.readValue(responseBody, CreatedBooking.class);
 
         assertThat(createdBooking).isNotNull();
-        assertEquals(setupNewBookingFields().getFirstname(), createdBooking.getBooking().getFirstname());
-        assertEquals(setupNewBookingFields().getLastname(), createdBooking.getBooking().getLastname());
-        assertEquals(setupNewBookingFields().getTotalprice(), createdBooking.getBooking().getTotalprice());
-        assertEquals(setupNewBookingFields().isDepositpaid(), createdBooking.getBooking().isDepositpaid());
-        assertEquals(setupNewBookingFields().getBookingdates().getCheckin(), createdBooking.getBooking().getBookingdates().getCheckin());
-        assertEquals(setupNewBookingFields().getBookingdates().getCheckout(), createdBooking.getBooking().getBookingdates().getCheckout());
-        assertEquals(setupNewBookingFields().getAdditionalneeds(), createdBooking.getBooking().getAdditionalneeds());
+        assertEquals(newBooking.getFirstname(), createdBooking.getBooking().getFirstname());
+        assertEquals(newBooking.getLastname(), createdBooking.getBooking().getLastname());
+        assertEquals(newBooking.getTotalprice(), createdBooking.getBooking().getTotalprice());
+        assertEquals(newBooking.isDepositpaid(), createdBooking.getBooking().isDepositpaid());
+        assertEquals(newBooking.getBookingdates().getCheckin(), createdBooking.getBooking().getBookingdates().getCheckin());
+        assertEquals(newBooking.getBookingdates().getCheckout(), createdBooking.getBooking().getBookingdates().getCheckout());
+        assertEquals(newBooking.getAdditionalneeds(), createdBooking.getBooking().getAdditionalneeds());
     }
+
+
 
     @AfterEach
     public void tearDown(){
