@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Properties;
 
 import static io.restassured.RestAssured.given;
+import static io.restassured.RestAssured.when;
 
 public class APIClient {
 
@@ -127,10 +128,10 @@ public class APIClient {
                 .when()
                 .delete(ApiEndpoints.BOOKING.getPath()+ "/{id}")
                 .then()
-                .log().all()
                 .statusCode(201)
                 .extract().response();
     }
+
     public Response createBooking (String newBooking){
         return getRequestSpec()
                 .body(newBooking)
@@ -140,6 +141,18 @@ public class APIClient {
                 .then()
                 .log().all()
                 .extract().response();
+    }
+
+    public Response updateBooking(int bookingId, String newBooking) {
+        return getRequestSpec()
+                .pathParam("id", bookingId)
+                .body(newBooking)
+                .when()
+                .put(ApiEndpoints.BOOKING.getPath()+ "/{id}")
+                .then()
+                .log().all()
+                .extract().response();
+
     }
 
 }
