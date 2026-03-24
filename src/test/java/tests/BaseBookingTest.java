@@ -10,8 +10,7 @@ import org.assertj.core.api.AssertionsForClassTypes;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
-import static core.utils.SetupNewBookingFields.setupNewBookingFields;
-import static org.assertj.core.api.FactoryBasedNavigableListAssert.assertThat;
+import static core.utils.TestData.setupNewBookingFields;
 
 public class BaseBookingTest extends BaseTest{
     protected int createdBookingId;
