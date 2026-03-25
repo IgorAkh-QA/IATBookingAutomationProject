@@ -155,4 +155,15 @@ public class APIClient {
 
     }
 
+    public Response partialUpdateBooking(int bookingId, String partialUpdateBooking){
+        return getRequestSpec()
+                .pathParam("id", bookingId)
+                .body(partialUpdateBooking)
+                .when()
+                .patch(ApiEndpoints.BOOKING.getPath()+ "/{id}")
+                .then()
+                .log().all()
+                .extract().response();
+    }
+
 }
