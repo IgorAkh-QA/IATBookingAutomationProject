@@ -17,15 +17,4 @@ public class BaseTest {
         apiClient = new APIClient();
         apiClient.createToken("admin", "password123");
     }
-
-
-    /*
-    @AfterEach
-    public void tearDown(){
-        apiClient.createToken("admin", "password123");
-
-        apiClient.deleteBookingById(createdBooking.getBookingid());
-
-        assertThat(apiClient.getBookingById(createdBooking.getBookingid()).getStatusCode()).isEqualTo(404);
-    }*/
 }

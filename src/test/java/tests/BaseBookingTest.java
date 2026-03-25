@@ -15,10 +15,11 @@ import static core.utils.TestData.setupNewBookingFields;
 public class BaseBookingTest extends BaseTest{
     protected int createdBookingId;
     protected ObjectMapper objectMapper = new ObjectMapper();
+    protected NewBooking newBooking;
 
     @BeforeEach
     public void createNewBookingPrecondition() throws JsonProcessingException {
-        NewBooking newBooking = setupNewBookingFields();
+        newBooking = setupNewBookingFields();
         String requestBody = objectMapper.writeValueAsString(newBooking);
         Response createdBookingResponse = apiClient.createBooking(requestBody);
        Assertions.assertThat(createdBookingResponse.getStatusCode()).isEqualTo(200);

@@ -1,11 +1,28 @@
 package core.models;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 public class NewBooking {
+
+    public interface partialFields {}
+    public interface allFields extends partialFields{}
+
+    @JsonView(partialFields.class)
     public String firstname;
+
+    @JsonView(partialFields.class)
     public String lastname;
+
+    @JsonView(allFields.class)
     public int totalprice;
+
+    @JsonView(allFields.class)
     public boolean depositpaid;
+
+    @JsonView(allFields.class)
     public BookingDates bookingdates;
+
+    @JsonView(allFields.class)
     public String additionalneeds;
 
     public String getLastname() {
