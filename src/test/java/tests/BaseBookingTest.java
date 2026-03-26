@@ -27,6 +27,7 @@ public class BaseBookingTest extends BaseTest{
         String responseBody = createdBookingResponse.asString(); //Приводим объект response к строке, для последующей десериализации
         CreatedBooking createdBooking = objectMapper.readValue(responseBody, CreatedBooking.class); //Десериализуем респонс
         createdBookingId = createdBooking.getBookingid();
+
         System.out.println("Предусловие выполнено успешно, бронирование: " + createdBookingId + " создано");
 
     }

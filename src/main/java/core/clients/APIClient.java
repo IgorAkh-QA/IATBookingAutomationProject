@@ -121,6 +121,19 @@ public class APIClient {
                 .extract().response();
     }
 
+    public Response getBookingWithFilters(String firstName, String lastName, String checkOutDate) {
+        RequestSpecification spec = getRequestSpec();
+        if (firstName != null) spec.queryParam("firstname", firstName);
+        if (lastName != null) spec.queryParam("lastname", lastName);
+        if (checkOutDate != null) spec.queryParam("checkout", checkOutDate);
+        return spec.log().params()
+                .when()
+                .get(ApiEndpoints.BOOKING.getPath())
+                .then()
+                .statusCode(200)
+                .extract().response();
+    }
+
     // DELETE запрос на эндпоинт /booking
     public Response deleteBookingById(int bookingId) {
         return getRequestSpec()

@@ -31,7 +31,6 @@ public class PartialUpdateBookingTest extends BaseBookingTest{
         assertThat(partialUpdatedBooking).isNotNull();
         assertEquals(partialUpdateBooking.getFirstname(), partialUpdatedBooking.getFirstname());
         assertEquals(partialUpdateBooking.getLastname(), partialUpdatedBooking.getLastname());
-
         assertEquals(newBooking.getTotalprice(), partialUpdatedBooking.getTotalprice());
         assertEquals(newBooking.isDepositpaid(), partialUpdatedBooking.isDepositpaid());
         assertEquals(newBooking.getBookingdates().getCheckin(), partialUpdatedBooking.getBookingdates().getCheckin());
@@ -41,4 +40,3 @@ public class PartialUpdateBookingTest extends BaseBookingTest{
     }
 
 }
-
