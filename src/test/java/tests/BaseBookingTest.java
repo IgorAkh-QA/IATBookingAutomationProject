@@ -9,8 +9,10 @@ import org.assertj.core.api.Assertions;
 import org.assertj.core.api.AssertionsForClassTypes;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import static io.qameta.allure.Allure.step;
 
 import static core.utils.TestData.setupNewBookingFields;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class BaseBookingTest extends BaseTest{
     protected int createdBookingId;
@@ -22,13 +24,13 @@ public class BaseBookingTest extends BaseTest{
         newBooking = setupNewBookingFields();
         String requestBody = objectMapper.writeValueAsString(newBooking);
         Response createdBookingResponse = apiClient.createBooking(requestBody);
-       Assertions.assertThat(createdBookingResponse.getStatusCode()).isEqualTo(200);
+
+        step("Выполнено предусловие, создано бронирование для последующих проверок", () ->
+        assertThat(createdBookingResponse.getStatusCode()).isEqualTo(200));
 
         String responseBody = createdBookingResponse.asString(); //Приводим объект response к строке, для последующей десериализации
         CreatedBooking createdBooking = objectMapper.readValue(responseBody, CreatedBooking.class); //Десериализуем респонс
         createdBookingId = createdBooking.getBookingid();
-
-        System.out.println("Предусловие выполнено успешно, бронирование: " + createdBookingId + " создано");
 
     }
 
@@ -36,9 +38,9 @@ public class BaseBookingTest extends BaseTest{
     public void tearDown() {
         apiClient.createToken("admin", "password123");
         apiClient.deleteBookingById(createdBookingId); //Вызываем метод delete для созданного в рамках теста bookingId
+        step("Выполнено постусловие, бронирование удалено, после проведения проверки", () ->
+        AssertionsForClassTypes.assertThat(apiClient.getBookingById(createdBookingId).getStatusCode()).isEqualTo(404));
 
-        AssertionsForClassTypes.assertThat(apiClient.getBookingById(createdBookingId).getStatusCode()).isEqualTo(404);
-        System.out.println("Постусловие выполнено успешно, бронирование: " + createdBookingId + " удалено");//Проверяем, что bookingId действительно удален
     }
 
 

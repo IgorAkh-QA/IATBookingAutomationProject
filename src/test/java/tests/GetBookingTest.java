@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static io.qameta.allure.Allure.step;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class GetBookingTest extends BaseBookingTest {
@@ -16,14 +17,19 @@ public class GetBookingTest extends BaseBookingTest {
     public void testGetAllBookingsResponseBody () throws JsonProcessingException {
 
         Response bookingListResponse = apiClient.getBooking();
-        assertThat(bookingListResponse.getStatusCode()).isEqualTo(200);
+
+        step("Ответ от метода GET /booking с кодом: " + bookingListResponse.getStatusCode(), () ->
+        assertThat(bookingListResponse.getStatusCode()).isEqualTo(200));
 
         String responseBodyWithBookingList = bookingListResponse.getBody().asString();
         List<Booking> bookings = objectMapper.readValue(responseBodyWithBookingList, new TypeReference<>() {
         });
 
-        assertThat(bookings).isNotEmpty();
-        assertThat(bookings).extracting(Booking::getBookingId).contains(createdBookingId);
+        step("Список бронирований в ответе не пустой" , () ->
+        assertThat(bookings).isNotEmpty());
+
+        step("В списке бронирований присутствует созданное бронирование с booking == " + createdBookingId , () ->
+        assertThat(bookings).extracting(Booking::getBookingId).contains(createdBookingId));
     }
 }
 

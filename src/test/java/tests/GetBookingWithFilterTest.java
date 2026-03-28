@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
+import static io.qameta.allure.Allure.step;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.filter;
 
@@ -49,15 +50,15 @@ public class GetBookingWithFilterTest extends BaseBookingTest {
             throw new IllegalArgumentException();
         }
 
-        assertThat(response.getStatusCode()).isEqualTo(200);
+        step("Ответ от метода GET /boking с кодом == " + response.getStatusCode(), () ->
+        assertThat(response.getStatusCode()).isEqualTo(200));
 
         List<Integer> filteredBookingIds = response.jsonPath().getList("bookingid", Integer.class);
         filteredBookingIds = (filteredBookingIds != null) ? filteredBookingIds : Collections.emptyList();
-        System.out.println(filteredBookingIds + "  " + createdBookingId);
-        assertThat(filteredBookingIds).contains(createdBookingId);
 
+        List<Integer> finalFilteredBookingIds = filteredBookingIds;
 
-        System.out.println(filteredBookingIds);
-
+        step("bookingid бронирования, при поиске с примененным фильтром, совпадает с ожидаемым: " + filteredBookingIds + " == " + createdBookingId, () ->
+        assertThat(finalFilteredBookingIds).contains(createdBookingId));
     }
 }
