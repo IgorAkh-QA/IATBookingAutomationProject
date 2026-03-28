@@ -3,6 +3,7 @@ package tests;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import core.models.NewBooking;
 import io.restassured.response.Response;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -30,6 +31,7 @@ public class GetBookingWithFilterTest extends BaseBookingTest {
     
     @ParameterizedTest(name= "Поиск бронирования с фильтром: {0}")
     @MethodSource("filterParam")
+    @DisplayName("Поиск бронирований, удовлетворяющих условиям фильтрации")
     public void testGetBookingWithFilter(String paramName, Function <NewBooking, String> valueExtractor) throws IOException {
         
         
@@ -58,7 +60,7 @@ public class GetBookingWithFilterTest extends BaseBookingTest {
 
         List<Integer> finalFilteredBookingIds = filteredBookingIds;
 
-        step("bookingid бронирования, при поиске с примененным фильтром, совпадает с ожидаемым: " + filteredBookingIds + " == " + createdBookingId, () ->
+        step("bookingid бронирования найден в ответе с примененным фильтром" + filteredBookingIds + " == " + createdBookingId, () ->
         assertThat(finalFilteredBookingIds).contains(createdBookingId));
     }
 }

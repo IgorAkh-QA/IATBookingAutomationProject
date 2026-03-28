@@ -3,6 +3,7 @@ package tests;
 import core.models.CreatedBooking;
 import core.models.NewBooking;
 import io.restassured.response.Response;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -13,6 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class GetBookingByIdTest extends BaseBookingTest {
 
     @Test
+    @DisplayName("Получение данных о бронировании по id")
     public void testGetBookingAfterCreatingById(){
 
         Response response = apiClient.getBookingById(createdBookingId);

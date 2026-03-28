@@ -9,6 +9,8 @@ import org.assertj.core.api.Assertions;
 import org.assertj.core.api.AssertionsForClassTypes;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+
 import static io.qameta.allure.Allure.step;
 
 import static core.utils.TestData.setupNewBookingFields;
@@ -20,6 +22,7 @@ public class BaseBookingTest extends BaseTest{
     protected NewBooking newBooking;
 
     @BeforeEach
+    @DisplayName("Предусловие: создание бронирования")
     public void createNewBookingPrecondition() throws JsonProcessingException {
         newBooking = setupNewBookingFields();
         String requestBody = objectMapper.writeValueAsString(newBooking);
@@ -35,6 +38,7 @@ public class BaseBookingTest extends BaseTest{
     }
 
     @AfterEach
+    @DisplayName("Постусловие: удаление бронирования")
     public void tearDown() {
         apiClient.createToken("admin", "password123");
         apiClient.deleteBookingById(createdBookingId); //Вызываем метод delete для созданного в рамках теста bookingId

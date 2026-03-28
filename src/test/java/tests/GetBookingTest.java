@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import core.models.Booking;
 import io.restassured.response.Response;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -14,6 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class GetBookingTest extends BaseBookingTest {
 
     @Test
+    @DisplayName("Поиск созданного бронирования в списке всех бронирований")
     public void testGetAllBookingsResponseBody () throws JsonProcessingException {
 
         Response bookingListResponse = apiClient.getBooking();

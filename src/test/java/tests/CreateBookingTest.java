@@ -6,6 +6,7 @@ import core.models.CreatedBooking;
 import core.models.NewBooking;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static core.utils.TestData.setupNewBookingFields;
@@ -19,6 +20,7 @@ public class CreateBookingTest extends BaseTest {
     private CreatedBooking createdBooking;
 
     @Test
+    @DisplayName("Проверка создания нового бронирования")
     public void createBooking() throws JsonProcessingException{
 
         NewBooking newBooking = setupNewBookingFields();

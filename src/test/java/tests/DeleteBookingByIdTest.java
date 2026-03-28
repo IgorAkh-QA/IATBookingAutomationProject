@@ -1,6 +1,7 @@
 package tests;
 
 import io.restassured.response.Response;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -12,6 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class DeleteBookingByIdTest extends BaseTest {
 
     @Test
+    @DisplayName("Удаленное бронирование не получается найти по его id")
     public void testBookingIsNotFoundAfterDeletion() {
         List<Integer> bookingIdList = apiClient.bookingIdList();
         Integer bookingId = bookingIdList.get(0);

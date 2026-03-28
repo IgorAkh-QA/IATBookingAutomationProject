@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import core.models.NewBooking;
 import io.restassured.response.Response;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static core.utils.TestData.setupNewBookingFields;
@@ -17,6 +18,7 @@ public class PartialUpdateBookingTest extends BaseBookingTest{
     private NewBooking partialUpdatedBooking;
 
     @Test
+    @DisplayName("Частичное редактирование данных бронирования")
     public void testPartialUpdateBooking() throws JsonProcessingException {
 
         NewBooking partialUpdateBooking = setupNewBookingFields();
