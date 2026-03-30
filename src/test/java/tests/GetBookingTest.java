@@ -1,40 +1,37 @@
 package tests;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import core.clients.APIClient;
 import core.models.Booking;
 import io.restassured.response.Response;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static io.qameta.allure.Allure.step;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class GetBookingTest extends BaseBookingTest{
+public class GetBookingTest extends BaseBookingTest {
 
     @Test
-    public void testGetAllBookings() throws Exception {
-        ObjectMapper objectMapper = new ObjectMapper();
-        // Выполняем GET запрос на /ping через APIClient
-        Response response = apiClient.getBooking();
+    @DisplayName("Поиск созданного бронирования в списке всех бронирований")
+    public void testGetAllBookingsResponseBody () throws JsonProcessingException {
 
-        //Проверяем, что статус- код ответа равен 200
-        assertThat(response.getStatusCode()).isEqualTo(200);
+        Response bookingListResponse = apiClient.getBooking();
 
-        //Десериализуем тело ответа в список объектов Booking
-        String responseBody = response.getBody().asString();
-        List<Booking> bookings = objectMapper.readValue(responseBody, new TypeReference<List<Booking>>() {
+        step("Ответ от метода GET /booking с кодом: " + bookingListResponse.getStatusCode(), () ->
+        assertThat(bookingListResponse.getStatusCode()).isEqualTo(200));
+
+        String responseBodyWithBookingList = bookingListResponse.getBody().asString();
+        List<Booking> bookings = objectMapper.readValue(responseBodyWithBookingList, new TypeReference<>() {
         });
 
-        //Проверяем, что тело ответа содержит объекты Booking
-        assertThat(bookings).isNotEmpty();
+        step("Список бронирований в ответе не пустой" , () ->
+        assertThat(bookings).isNotEmpty());
 
-        //Проверяем, что каждый объект Booking содержит валидное значение bookingid
-        for (Booking booking : bookings) {
-            assertThat(booking.getBookingId()).isGreaterThan(0);// bookingid должен быть > 0
-            System.out.println(booking.getBookingId());
-        }
+        step("В списке бронирований присутствует созданное бронирование с booking == " + createdBookingId , () ->
+        assertThat(bookings).extracting(Booking::getBookingId).contains(createdBookingId));
     }
 }
+

@@ -1,14 +1,28 @@
 package core.models;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonView;
 
-public class BookingById {
+public class NewBooking {
+
+    public interface partialFields {}
+    public interface allFields extends partialFields{}
+
+    @JsonView(partialFields.class)
     public String firstname;
+
+    @JsonView(partialFields.class)
     public String lastname;
+
+    @JsonView(allFields.class)
     public int totalprice;
+
+    @JsonView(allFields.class)
     public boolean depositpaid;
+
+    @JsonView(allFields.class)
     public BookingDates bookingdates;
+
+    @JsonView(allFields.class)
     public String additionalneeds;
 
     public String getLastname() {
@@ -47,8 +61,8 @@ public class BookingById {
         return bookingdates;
     }
 
-    public void setBookingdates(BookingDates bookingdates) {
-        this.bookingdates = bookingdates;
+    public void setBookingdates(BookingDates bookingDates) {
+        this.bookingdates = bookingDates;
     }
 
     public String getAdditionalneeds() {
@@ -59,24 +73,5 @@ public class BookingById {
         this.additionalneeds = additionalneeds;
     }
 
-    public static class BookingDates {
-        public String checkin;
-        public String checkout;
 
-        public String getCheckin() {
-            return checkin;
-        }
-
-        public void setCheckin(String checkin) {
-            this.checkin = checkin;
-        }
-
-        public String getCheckout() {
-            return checkout;
-        }
-
-        public void setCheckout(String checkout) {
-            this.checkout = checkout;
-        }
-    }
 }
